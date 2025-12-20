@@ -1,7 +1,6 @@
 <template>
   <section class="min-h-screen bg-slate-50 py-10 px-4">
     <div class="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
-
       <!-- FORMULÁRIO -->
       <div class="lg:col-span-2 bg-white rounded-xl shadow p-8">
         <LogoAugile class="mb-6" />
@@ -10,49 +9,50 @@
           Finalizar assinatura
         </h1>
 
-        <!-- Dados -->
         <div class="grid sm:grid-cols-2 gap-4 mb-6">
+          <!-- Nome -->
           <div>
             <input
               v-model="nome"
               class="w-full border rounded-lg px-4 py-3"
               placeholder="Nome completo"
-            />
+            >
             <p v-if="errors.nome" class="text-red-500 text-sm mt-1">
               {{ errors.nome }}
             </p>
           </div>
 
+          <!-- CPF -->
           <div>
             <input
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="14"
               class="w-full border rounded-lg px-4 py-3"
               placeholder="CPF"
               :value="cpf"
+              @keydown="onlyNumbersCpf"
+              @paste.prevent="onPasteCpf"
               @input="onCpfInput"
             />
             <p v-if="errors.cpf" class="text-red-500 text-sm mt-1">
               {{ errors.cpf }}
             </p>
           </div>
-<!-- 
-          <div class="sm:col-span-2">
-            <input
-              v-model="whatsapp"
-              class="w-full border rounded-lg px-4 py-3"
-              placeholder="WhatsApp"
-            />
-            <p v-if="errors.whatsapp" class="text-red-500 text-sm mt-1">
-              {{ errors.whatsapp }}
-            </p>
-          </div> -->
-          <div class="sm:col-span-2">
-            <input
-              class="w-full border rounded-lg px-4 py-3"
-              placeholder="WhatsApp"
-              :value="whatsapp"
-              @input="onWhatsAppInput"
-            />
 
+          <!-- WhatsApp -->
+          <div class="sm:col-span-2">
+            <input
+              inputmode="numeric"
+              autocomplete="tel"
+              maxlength="15"
+              class="w-full border rounded-lg px-4 py-3"
+              placeholder="WhatsApp (99) 99999-9999"
+              :value="whatsapp"
+              @keydown="onlyNumbers"
+              @paste.prevent="onPasteWhatsApp"
+              @input="onWhatsAppInput"
+            >
             <p v-if="errors.whatsapp" class="text-red-500 text-sm mt-1">
               {{ errors.whatsapp }}
             </p>
@@ -60,13 +60,11 @@
         </div>
 
         <!-- Pagamento -->
-        <h2 class="font-semibold mb-3">
-          Forma de pagamento
-        </h2>
+        <h2 class="font-semibold mb-3">Forma de pagamento</h2>
 
         <div class="space-y-3 mb-8">
           <label class="flex items-center gap-3 border rounded-lg p-4 cursor-pointer">
-            <input type="radio" value="cartao" v-model="pagamento" />
+            <input v-model="pagamento" type="radio" value="cartao">
             <span class="font-medium">Cartão de crédito</span>
             <span class="text-sm text-slate-500 ml-auto">
               Cobrança recorrente
@@ -74,7 +72,7 @@
           </label>
 
           <label class="flex items-center gap-3 border rounded-lg p-4 cursor-pointer">
-            <input type="radio" value="pix" v-model="pagamento" />
+            <input v-model="pagamento" type="radio" value="pix">
             <span class="font-medium">PIX</span>
             <span class="text-sm text-slate-500 ml-auto">
               Renovação mensal
@@ -83,8 +81,8 @@
         </div>
 
         <button
-          @click="submit"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg"
+          @click="submit"
         >
           Continuar para pagamento
         </button>
@@ -100,9 +98,7 @@
           Resumo do plano
         </h2>
 
-        <p class="font-semibold">
-          {{ plano.nome }}
-        </p>
+        <p class="font-semibold">{{ plano.nome }}</p>
         <p class="text-slate-500 mb-4">
           R$ {{ plano.preco }} / mês
         </p>
@@ -120,14 +116,13 @@
           <span>R$ {{ plano.preco }}</span>
         </div>
       </aside>
-
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { maskCPF, isValidCPF } from '~/utils/cpf'
-import { maskWhatsApp } from '~/utils/whatsapp'
+import { maskWhatsApp, isValidWhatsApp } from '~/utils/whatsapp'
 
 const route = useRoute()
 
@@ -176,9 +171,42 @@ const errors = ref({
   whatsapp: ''
 })
 
+/* ===== Handlers ===== */
 function onCpfInput(e: Event) {
   cpf.value = maskCPF((e.target as HTMLInputElement).value)
   errors.value.cpf = ''
+}
+
+function onlyNumbers(e: KeyboardEvent) {
+  const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab']
+  if (allowed.includes(e.key)) return
+  if (!/^\d$/.test(e.key)) e.preventDefault()
+}
+
+function onlyNumbersCpf(e: KeyboardEvent) {
+  const allowed = [
+    'Backspace',
+    'Delete',
+    'ArrowLeft',
+    'ArrowRight',
+    'Tab'
+  ]
+
+  if (allowed.includes(e.key)) return
+
+  if (!/^\d$/.test(e.key)) {
+    e.preventDefault()
+  }
+}
+
+function onPasteCpf(e: ClipboardEvent) {
+  const pasted = e.clipboardData?.getData('text') ?? ''
+  cpf.value = maskCPF(pasted)
+}
+
+function onPasteWhatsApp(e: ClipboardEvent) {
+  const pasted = e.clipboardData?.getData('text') ?? ''
+  whatsapp.value = maskWhatsApp(pasted)
 }
 
 function onWhatsAppInput(e: Event) {
@@ -188,6 +216,7 @@ function onWhatsAppInput(e: Event) {
   errors.value.whatsapp = ''
 }
 
+/* ===== Validação ===== */
 function validate() {
   errors.value = { nome: '', cpf: '', whatsapp: '' }
 
@@ -199,7 +228,7 @@ function validate() {
     errors.value.cpf = 'CPF inválido'
   }
 
-  if (whatsapp.value.replace(/\D/g, '').length < 11) {
+  if (!isValidWhatsApp(whatsapp.value)) {
     errors.value.whatsapp = 'WhatsApp inválido'
   }
 
@@ -217,6 +246,6 @@ function submit() {
     pagamento: pagamento.value
   })
 
-  alert('Checkout validado! (pronto para integrar pagamento)')
+  alert('Checkout validado! Pronto para integração de pagamento.')
 }
 </script>

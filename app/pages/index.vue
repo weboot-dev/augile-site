@@ -4,7 +4,9 @@
       <HeroApp />
       <FeaturesApp />
       <PlansApp />
+      <ConversationApp />
     </main>
+    <WhatsappFloat />
     <FooterApp />
   </div>
 </template>
