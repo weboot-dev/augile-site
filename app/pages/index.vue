@@ -1,11 +1,8 @@
 <template>
   <div>
-    <HeaderApp />
-
     <main>
       <HeroApp />
       <FeaturesApp />
-      <TestimonialsApp />
       <PlansApp />
     </main>
     <FooterApp />

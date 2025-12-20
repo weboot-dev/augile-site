@@ -2,10 +2,15 @@
   <footer class="bg-slate-900 text-slate-300 py-12">
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8">
       <div>
-        <h3 class="text-white font-bold mb-4">Augile</h3>
+        <!-- <h3 class="text-white font-bold mb-4">Augile</h3>
         <p class="text-sm">
           Sistema de gestão para oficinas mecânicas.
-        </p>
+        </p> -->
+        <img
+          src="/assets/imgs/augile_logo_branco_completo.png"
+          alt="Augile"
+          class="mx-auto mb-8 h-16 md:h-20"
+        >
       </div>
 
       <div>
