@@ -34,13 +34,25 @@
               {{ errors.cpf }}
             </p>
           </div>
-
+<!-- 
           <div class="sm:col-span-2">
             <input
               v-model="whatsapp"
               class="w-full border rounded-lg px-4 py-3"
               placeholder="WhatsApp"
             />
+            <p v-if="errors.whatsapp" class="text-red-500 text-sm mt-1">
+              {{ errors.whatsapp }}
+            </p>
+          </div> -->
+          <div class="sm:col-span-2">
+            <input
+              class="w-full border rounded-lg px-4 py-3"
+              placeholder="WhatsApp"
+              :value="whatsapp"
+              @input="onWhatsAppInput"
+            />
+
             <p v-if="errors.whatsapp" class="text-red-500 text-sm mt-1">
               {{ errors.whatsapp }}
             </p>
@@ -115,6 +127,7 @@
 
 <script setup lang="ts">
 import { maskCPF, isValidCPF } from '~/utils/cpf'
+import { maskWhatsApp } from '~/utils/whatsapp'
 
 const route = useRoute()
 
@@ -166,6 +179,13 @@ const errors = ref({
 function onCpfInput(e: Event) {
   cpf.value = maskCPF((e.target as HTMLInputElement).value)
   errors.value.cpf = ''
+}
+
+function onWhatsAppInput(e: Event) {
+  whatsapp.value = maskWhatsApp(
+    (e.target as HTMLInputElement).value
+  )
+  errors.value.whatsapp = ''
 }
 
 function validate() {
