@@ -148,6 +148,12 @@ const errors = ref({
 
 function onCpfInput(e: Event) {
   cpf.value = maskCPF((e.target as HTMLInputElement).value)
+
+  if (cpf.value.replace(/\D/g, '').length === 11) {
+    if (!isValidCPF(cpf.value)) {
+      errors.value.cpf = 'CPF inválido'
+    } 
+  }
 }
 
 function onlyNumbers(e: KeyboardEvent) {
