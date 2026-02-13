@@ -1,5 +1,8 @@
 <template>
-  <section id="planos" class="bg-slate-100 py-20">
+  <section id="planos" class="relative py-20 bg-gradient-to-b from-white via-blue-50 to-white">
+    <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute top-0 left-1/2 w-[600px] h-[600px] bg-blue-500/20 blur-3xl rounded-full -translate-x-1/2" />
+    </div>
     <div class="max-w-5xl mx-auto px-6">
       <!-- Título -->
       <div class="text-center mb-14">
@@ -158,9 +161,6 @@
           </div>
         </div>
 
-        <!-- ===================================================
-             ETAPA 2 → CADASTRO
-        ==================================================== -->
         <div
           v-else
           key="cadastro"
@@ -263,11 +263,14 @@
 <script setup lang="ts">
 import { ref, computed, toRaw } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useToast } from 'vue-toastification'
 import { usePlanosStore } from '~/stores/planos.store'
 
 import Check from './icons/Check.vue'
 import Close from './icons/Close.vue'
 import type { PlanoBase } from '~/services/planos.service'
+import { isAxiosError } from 'axios'
+import { registrarProprietario } from '~/services/proprietario.service'
 
 const planosStore = usePlanosStore()
 await planosStore.carregar()
@@ -328,24 +331,16 @@ const formularioValido = computed(() => {
   return true
 })
 
-/* ===================================================
-   ESTADO
-=================================================== */
 const etapa = ref<'planos' | 'cadastro'>('planos')
 const planoSelecionado = ref<PlanoBase | null>(null)
 
-/* ===================================================
-   FORM (vindos do seu componente original)
-=================================================== */
+const toast = useToast()  
+
 const cpf = ref('')
 const nome = ref('')
 const whatsapp = ref('')
-const isTrial = ref(false)
 const errors = ref<{ cpf?: string; nome?: string; whatsapp?: string }>({})
 
-/* ===================================================
-   PLANOS
-=================================================== */
 const planoGratuito = computed(() =>
   toRaw(planos.value)?.find(p => p.tipo === 'GRATUITO')
 )
@@ -354,9 +349,6 @@ const planoBasico = computed(() =>
   toRaw(planos.value)?.find(p => p.tipo === 'BASICO')
 )
 
-/* ===================================================
-   TABELA
-=================================================== */
 const rows = computed(() => {
   if (!planoGratuito.value || !planoBasico.value) return []
 
@@ -388,9 +380,6 @@ const rows = computed(() => {
   ]
 })
 
-/* ===================================================
-   AÇÕES
-=================================================== */
 function iniciarTeste(plano?: PlanoBase) {
   if (!plano) return
   planoSelecionado.value = plano
@@ -403,21 +392,38 @@ function voltarPlanos() {
   planoSelecionado.value = null
 }
 
-/* ===================================================
-   SUBMIT
-=================================================== */
 async function submit() {
-  console.log({
-    cpf: cpf.value,
-    nome: nome.value,
-    whatsapp: whatsapp.value,
-    isTrial: isTrial.value, 
-    planoId: planoSelecionado.value?.id
-  })
+  
+  try {
 
-  console.log(planoSelecionado.value?.titulo)
+    if (!planoSelecionado.value) {
+      toast.error('Selecione um plano')
+      return
+    }
 
-  // chamada da API aqui
+    await registrarProprietario({
+      cpf: cpf.value.replace(/\D/g, ''),
+      nomeCompleto: nome.value.trim(),
+      whatsapp: normalizeWhatsApp(whatsapp.value),
+      idPlano: planoSelecionado.value.id
+    })
+    toast.success('Cadastro realizado com sucesso!') 
+  } catch (error: unknown) {
+    let message = 'Erro ao registrar proprietário'
+
+    if (isAxiosError(error)) {
+      const backendMessage = error.response?.data?.message
+
+      if (Array.isArray(backendMessage)) {
+        message = backendMessage[0]
+      } else if (backendMessage) {
+        message = backendMessage
+      }
+    }
+    toast.error(message)
+  } finally {
+    voltarPlanos()
+  }
 }
 </script>
 
