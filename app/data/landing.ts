@@ -19,25 +19,59 @@ export const showcaseItems = [
     points: ['Marca e modelo do veículo', 'Ano, placa e cor', 'Chassi como informação opcional']
   },
   {
-    id: 'historico', label: 'Clientes e veículos', icon: 'users',
-    title: 'Consulte clientes, veículos e serviços juntos',
-    description: 'Acesse os dados do cliente e encontre os veículos vinculados sem procurar em papéis.',
-    points: ['Dados do cliente centralizados', 'Veículos vinculados ao proprietário', 'Consulta dos serviços por veículo']
+    id: 'ordens', label: 'Ordens de serviço', icon: 'clipboard',
+    title: 'Monte a ordem de serviço em uma única tela',
+    description: 'Reúna cliente, veículo, serviços, produtos e condições de pagamento antes de finalizar a ordem.',
+    points: ['Serviços e produtos na mesma ordem', 'Condições de pagamento visíveis', 'Total calculado antes da finalização']
   },
   {
-    id: 'servicos', label: 'Serviços', icon: 'wrench',
-    title: 'Prepare orçamentos com mais agilidade',
-    description: 'Cadastre os serviços usados pela oficina e reutilize as informações.',
-    points: ['Serviços padronizados', 'Menos digitação repetida', 'Atendimento mais ágil']
+    id: 'estoque', label: 'Produtos e estoque', icon: 'wrench',
+    title: 'Cadastre produtos e controle seus dados de venda',
+    description: 'Organize as informações comerciais do produto e indique se ele possui estoque.',
+    points: ['Custo, margem e preço de venda', 'Fornecedor e unidade de venda', 'Controle de produto ativo e estoque']
+  },
+  {
+    id: 'fornecedores', label: 'Fornecedores', icon: 'users',
+    title: 'Mantenha os fornecedores organizados',
+    description: 'Consulte os fornecedores da oficina e cadastre novos contatos sem sair da listagem.',
+    points: ['Busca rápida por fornecedor', 'Contato centralizado', 'Acesso ao cadastro de produtos']
   }
 ] as const
 
 export const faqItems = [
-  { question: 'O plano gratuito tem prazo para acabar?', answer: 'Não. O plano Gratuito é disponibilizado sem prazo para acabar, respeitando os limites apresentados na seção de planos.' },
-  { question: 'Preciso cadastrar cartão para começar?', answer: 'Não. O cadastro do plano Gratuito e o início do teste não pedem cartão.' },
-  { question: 'O que acontece depois dos 14 dias de teste?', answer: 'Essa regra não está descrita no site nem no contrato disponível para a landing. Confirme com o suporte antes de iniciar o teste.' },
-  { question: 'Posso mudar de plano depois?', answer: 'A Augile apresenta planos para diferentes momentos da oficina. As regras de troca ainda precisam ser confirmadas com o suporte.' },
-  { question: 'Meus dados ficam salvos se eu mudar de plano?', answer: 'A regra de retenção de dados ao trocar de plano não está documentada neste projeto. O suporte pode confirmar como funciona para o seu caso.' },
-  { question: 'Como recebo o acesso?', answer: 'Depois do cadastro, o link de acesso e o código para entrar são enviados pelo WhatsApp informado.' },
-  { question: 'A Augile funciona no celular?', answer: 'Sim. O acesso é feito pela web e a interface pode ser usada no celular.' }
+  {
+    question: 'O plano gratuito tem prazo para acabar?',
+    answer:
+      'Não. O plano gratuito não possui prazo de encerramento, desde que sejam respeitados os limites apresentados na seção de planos.',
+  },
+  {
+    question: 'Preciso cadastrar um cartão para começar?',
+    answer:
+      'Não. Você pode criar sua conta e iniciar o período de teste sem cadastrar um cartão.',
+  },
+  {
+    question: 'O que acontece depois dos 14 dias de teste?',
+    answer:
+      'Após os 14 dias, sua conta será transferida automaticamente para o plano gratuito. Os limites de serviços, usuários e ordens de serviço serão ajustados conforme as condições desse plano.',
+  },
+  {
+    question: 'Posso mudar de plano depois?',
+    answer:
+      'Sim. Você pode mudar de plano quando desejar, sem perder os dados cadastrados.',
+  },
+  {
+    question: 'Meus dados ficam salvos se eu mudar de plano?',
+    answer:
+      'Sim. Seus dados permanecem salvos. Apenas os recursos e limites disponíveis serão ampliados ou reduzidos de acordo com o plano escolhido.',
+  },
+  {
+    question: 'Como recebo o acesso?',
+    answer:
+      'Após concluir o cadastro, você receberá um link para acessar a plataforma e configurar sua conta.',
+  },
+  {
+    question: 'A Augile funciona no celular?',
+    answer:
+      'Sim. A Augile utiliza a tecnologia PWA, que permite acessar a plataforma pelo navegador e adicionar um atalho à tela inicial do celular, proporcionando uma experiência semelhante à de um aplicativo.',
+  },
 ] as const

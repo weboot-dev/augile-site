@@ -45,15 +45,17 @@
 <script setup lang="ts">
 import telaCliente from '~/assets/imgs/tela_cliente.png'
 import telaClienteAddVeiculo from '~/assets/imgs/tela_cliente_add_veiculo.png'
-import telaClienteVeiculo from '~/assets/imgs/tela_cliente_veiculo.png'
-import telaServicos from '~/assets/imgs/tela_serviços.png'
+import ordemServico from '~/assets/imgs/ordem_servico.png'
+import cadastroProdutoEstoque from '~/assets/imgs/cadastro_produto_e_estoque.png'
+import telaFornecedores from '~/assets/imgs/tela_fornecedores.png'
 import { showcaseItems } from '~/data/landing'
 
 const showcaseImages: Record<(typeof showcaseItems)[number]['id'], string> = {
   clientes: telaCliente,
   veiculos: telaClienteAddVeiculo,
-  historico: telaClienteVeiculo,
-  servicos: telaServicos
+  ordens: ordemServico,
+  estoque: cadastroProdutoEstoque,
+  fornecedores: telaFornecedores
 }
 
 const active = ref(0)
