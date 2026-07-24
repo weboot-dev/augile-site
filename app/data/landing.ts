@@ -7,22 +7,22 @@ export const landingNavigation = [
 
 export const showcaseItems = [
   {
-    id: 'ordens', label: 'Ordens de serviço', icon: 'clipboard',
-    title: 'Acompanhe cada serviço do início ao fim',
-    description: 'Centralize as ordens e encontre rapidamente o que precisa de atenção.',
-    points: ['Status do serviço em um só lugar', 'Dados do cliente e do veículo ligados à OS', 'Rotina mais clara para a equipe']
+    id: 'clientes', label: 'Cadastro de clientes', icon: 'users',
+    title: 'Cadastre os clientes em poucos passos',
+    description: 'Reúna os dados do cliente e seus contatos em um único cadastro.',
+    points: ['CPF ou CNPJ no cadastro', 'Mais de um contato por cliente', 'Identificação do número com WhatsApp']
   },
   {
-    id: 'clientes', label: 'Clientes e veículos', icon: 'users',
-    title: 'Consulte o histórico sem procurar em papéis',
-    description: 'Mantenha os dados de clientes e veículos organizados para o próximo atendimento.',
-    points: ['Cadastro centralizado', 'Veículos vinculados ao cliente', 'Histórico fácil de localizar']
+    id: 'veiculos', label: 'Cadastro de veículos', icon: 'clipboard',
+    title: 'Vincule cada veículo ao seu cliente',
+    description: 'Registre as informações do veículo dentro do cadastro do proprietário.',
+    points: ['Marca e modelo do veículo', 'Ano, placa e cor', 'Chassi como informação opcional']
   },
   {
-    id: 'agenda', label: 'Agenda', icon: 'calendar',
-    title: 'Tenha uma visão clara dos atendimentos do dia',
-    description: 'Organize os compromissos da oficina e reduza desencontros na rotina.',
-    points: ['Visão dos atendimentos', 'Consulta rápida da rotina', 'Mais previsibilidade no dia']
+    id: 'historico', label: 'Clientes e veículos', icon: 'users',
+    title: 'Consulte clientes, veículos e serviços juntos',
+    description: 'Acesse os dados do cliente e encontre os veículos vinculados sem procurar em papéis.',
+    points: ['Dados do cliente centralizados', 'Veículos vinculados ao proprietário', 'Consulta dos serviços por veículo']
   },
   {
     id: 'servicos', label: 'Serviços', icon: 'wrench',

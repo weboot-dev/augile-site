@@ -27,15 +27,35 @@
         :aria-labelledby="`tab-${item.id}`"
         class="grid overflow-hidden rounded-[20px] border border-white/10 bg-white/5 lg:grid-cols-[1.1fr_.9fr]"
       >
-        <!-- TODO: substituir as prévias estruturais pelas screenshots oficiais de cada módulo. -->
-        <div class="min-h-72 bg-slate-100 p-5 text-slate-900 sm:p-8"><div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-lg"><div class="flex items-center justify-between border-b border-slate-100 pb-4"><div><p class="text-xs font-bold uppercase tracking-wider text-blue-600">{{ item.label }}</p><p class="mt-1 font-bold">Painel da oficina</p></div><LandingIcon :name="item.icon" class="size-7 text-blue-600" /></div><div v-for="n in 3" :key="n" class="mt-4 flex items-center gap-4 rounded-xl bg-slate-50 p-3"><span class="size-9 rounded-lg bg-blue-100" /><span class="flex-1"><span class="block h-2 w-2/3 rounded bg-slate-300" /><span class="mt-2 block h-2 w-1/2 rounded bg-slate-200" /></span></div></div></div>
+        <div class="flex min-h-72 items-center bg-slate-100">
+          <img
+            :src="showcaseImages[item.id]"
+            :alt="`Tela da Augile: ${item.label}`"
+            class="aspect-[1920/885] h-auto w-full object-contain"
+            width="1920"
+            height="885"
+            loading="lazy"
+          >
+        </div>
         <div class="p-7 sm:p-10"><h3 class="text-2xl font-bold">{{ item.title }}</h3><p class="mt-4 leading-7 text-slate-300">{{ item.description }}</p><ul class="mt-7 space-y-3"><li v-for="point in item.points" :key="point" class="flex gap-3 text-slate-200"><span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-500"><LandingIcon name="check" class="size-3.5" /></span>{{ point }}</li></ul></div>
       </div>
     </div>
   </section>
 </template>
 <script setup lang="ts">
+import telaCliente from '~/assets/imgs/tela_cliente.png'
+import telaClienteAddVeiculo from '~/assets/imgs/tela_cliente_add_veiculo.png'
+import telaClienteVeiculo from '~/assets/imgs/tela_cliente_veiculo.png'
+import telaServicos from '~/assets/imgs/tela_serviços.png'
 import { showcaseItems } from '~/data/landing'
+
+const showcaseImages: Record<(typeof showcaseItems)[number]['id'], string> = {
+  clientes: telaCliente,
+  veiculos: telaClienteAddVeiculo,
+  historico: telaClienteVeiculo,
+  servicos: telaServicos
+}
+
 const active = ref(0)
 function onTabKeydown(event: KeyboardEvent, index: number) { if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return; event.preventDefault(); if (event.key === 'Home') active.value = 0; else if (event.key === 'End') active.value = showcaseItems.length - 1; else active.value = (index + (event.key === 'ArrowRight' ? 1 : -1) + showcaseItems.length) % showcaseItems.length; nextTick(() => { const item = showcaseItems[active.value]; if (item) document.getElementById(`tab-${item.id}`)?.focus() }) }
 </script>

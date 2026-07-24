@@ -8,7 +8,7 @@
     @click="track('whatsapp_click', { source: 'floating_button' })"
   >
     <img
-      src="/assets/imgs/whatsapp.png"
+      src="~/assets/imgs/whatsapp.png"
       alt="WhatsApp"
       class="w-6 h-6"
     >
